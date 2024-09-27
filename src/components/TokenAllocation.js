@@ -60,31 +60,23 @@ const TokenAllocation = () => {
       <div className="token-allocation__settings">
         <h3 className="text-xl font-semibold mb-4">Adjust Allocations</h3>
         {allocations.map((allocation, index) => (
-          <div key={index} className="input-group">
-            <label className="label-text">{allocation.name}</label>
+          <div key={index} className="input-group mb-4">
+            <label className="label-text flex items-center">
+              {allocation.name}
+              <CustomTooltip content={allocation.unlockSchedule}>
+                <span className="ml-2 inline-block w-5 h-5 bg-gray-300 rounded-full text-gray-600 font-bold text-xs flex items-center justify-center cursor-help">
+                  ?
+                </span>
+              </CustomTooltip>
+            </label>
             <input
               type="number"
               value={allocation.percentage}
               onChange={(e) => handleAllocationChange(index, 'percentage', Number(e.target.value))}
-              className="input-field"
+              className="input-field mt-1"
             />
           </div>
         ))}
-      </div>
-      <div className="token-allocation__unlock-schedules md:col-span-2">
-        <h3 className="text-xl font-semibold mb-4">Unlock Schedules</h3>
-        <ul className="list-disc pl-5 space-y-2">
-          {allocations.map((allocation, index) => (
-            <li key={index} className="flex items-center">
-              <span className="font-medium mr-2">{allocation.name}:</span>
-              <CustomTooltip content={allocation.unlockSchedule}>
-                <span className="inline-block w-5 h-5 bg-gray-300 rounded-full text-gray-600 font-bold text-xs flex items-center justify-center cursor-help">
-                  ?
-                </span>
-              </CustomTooltip>
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
