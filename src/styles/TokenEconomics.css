@@ -1,0 +1,33 @@
+.token-economics {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .token-economics__settings {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .token-economics__chart {
+    flex: 2;
+    min-width: 400px;
+    height: 500px;
+  }
+  
+  .token-economics__input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .token-economics__input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .token-economics__input:focus {
+    outline: none;
+    border-color: #4a90e2;
+  }

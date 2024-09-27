@@ -1,0 +1,25 @@
+.user-journey {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .user-journey__settings {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .user-journey__chart {
+    flex: 2;
+    min-width: 400px;
+  }
+  
+  .user-journey__input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .user-journey__input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+  }

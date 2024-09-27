@@ -1,0 +1,31 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.input-field {
+  @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+}
+
+.label-text {
+  @apply block text-sm font-medium text-gray-700;
+}
+
+.container-box {
+  @apply bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300;
+}
+
+.section-title {
+  @apply text-2xl font-bold mb-4 text-indigo-700;
+}
+
+.chart-container {
+  @apply h-64 md:h-80;
+}
+
+.input-group {
+  @apply mb-4;
+}
+
+.button {
+  @apply px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300;
+}

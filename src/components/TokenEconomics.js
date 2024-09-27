@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import '../styles/TokenEconomics.css';
 
 const TokenEconomics = () => {
   const [initialSupply, setInitialSupply] = useState(1000000);
@@ -35,81 +36,76 @@ const TokenEconomics = () => {
   const data = simulateTokenomics();
 
   return (
-    <div className="mb-8">
-      <h2 className="text-xl font-bold mb-4">Token Economics Simulation</h2>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <label className="block">
-            Initial Token Supply:
+    <div className="token-economics grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="token-economics__settings">
+        <h3 className="text-xl font-semibold mb-4">Token Economics Settings</h3>
+        <div className="space-y-4">
+          <div className="input-group">
+            <label className="label-text">Initial Token Supply</label>
             <input
               type="number"
               value={initialSupply}
               onChange={(e) => setInitialSupply(Number(e.target.value))}
-              className="w-full mt-1 p-2 border rounded"
+              className="input-field"
             />
-          </label>
-        </div>
-        <div>
-          <label className="block">
-            Initial Player Base:
+          </div>
+          <div className="input-group">
+            <label className="label-text">Initial Player Base</label>
             <input
               type="number"
               value={initialPlayerBase}
               onChange={(e) => setInitialPlayerBase(Number(e.target.value))}
-              className="w-full mt-1 p-2 border rounded"
+              className="input-field"
             />
-          </label>
-        </div>
-        <div>
-          <label className="block">
-            Monthly Burn Rate:
+          </div>
+          <div className="input-group">
+            <label className="label-text">Monthly Burn Rate</label>
             <input
               type="number"
-              step="0.01"
               value={monthlyBurnRate}
               onChange={(e) => setMonthlyBurnRate(Number(e.target.value))}
-              className="w-full mt-1 p-2 border rounded"
+              className="input-field"
+              step="0.01"
             />
-          </label>
-        </div>
-        <div>
-          <label className="block">
-            Monthly Player Growth:
+          </div>
+          <div className="input-group">
+            <label className="label-text">Monthly Player Growth</label>
             <input
               type="number"
-              step="0.01"
               value={monthlyPlayerGrowth}
               onChange={(e) => setMonthlyPlayerGrowth(Number(e.target.value))}
-              className="w-full mt-1 p-2 border rounded"
+              className="input-field"
+              step="0.01"
             />
-          </label>
-        </div>
-        <div>
-          <label className="block">
-            Tokens Per Player:
+          </div>
+          <div className="input-group">
+            <label className="label-text">Tokens Per Player</label>
             <input
               type="number"
               value={tokensPerPlayer}
               onChange={(e) => setTokensPerPlayer(Number(e.target.value))}
-              className="w-full mt-1 p-2 border rounded"
+              className="input-field"
             />
-          </label>
+          </div>
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
-          <Tooltip />
-          <Legend />
-          <Line yAxisId="left" type="monotone" dataKey="supply" stroke="#8884d8" name="Token Supply" />
-          <Line yAxisId="left" type="monotone" dataKey="burned" stroke="#82ca9d" name="Tokens Burned" />
-          <Line yAxisId="right" type="monotone" dataKey="players" stroke="#ffc658" name="Player Base" />
-          <Line yAxisId="left" type="monotone" dataKey="demand" stroke="#ff7300" name="Token Demand" />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="token-economics__chart">
+        <h3 className="text-xl font-semibold mb-4">Token Economics Simulation</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" />
+            <YAxis yAxisId="left" />
+            <YAxis yAxisId="right" orientation="right" />
+            <Tooltip />
+            <Legend />
+            <Line yAxisId="left" type="monotone" dataKey="supply" stroke="#3B82F6" name="Token Supply" />
+            <Line yAxisId="left" type="monotone" dataKey="burned" stroke="#10B981" name="Tokens Burned" />
+            <Line yAxisId="right" type="monotone" dataKey="players" stroke="#F59E0B" name="Player Base" />
+            <Line yAxisId="left" type="monotone" dataKey="demand" stroke="#EF4444" name="Token Demand" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

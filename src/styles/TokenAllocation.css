@@ -1,0 +1,30 @@
+.token-allocation {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .token-allocation__chart {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .token-allocation__settings {
+    flex: 1;
+    min-width: 300px;
+    padding-left: 2rem;
+  }
+  
+  .token-allocation__input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .token-allocation__input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+  }
+  
+  .token-allocation__unlock-schedules {
+    margin-top: 2rem;
+  }
