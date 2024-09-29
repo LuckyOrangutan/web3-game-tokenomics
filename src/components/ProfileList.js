@@ -36,7 +36,11 @@ const ProfileList = ({ profiles, onAddProfile, onSelectProfile, onDeleteProfile,
       ) : (
         <ul className="space-y-2">
           {profiles.map((profile) => (
-            <li key={profile.id} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+            <li
+              key={profile.id}
+              className="flex items-center justify-between bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
+              onClick={() => onSelectProfile(profile.id)}
+            >
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
                   <span className="text-indigo-600 font-bold">{profile.name[0].toUpperCase()}</span>
@@ -50,6 +54,7 @@ const ProfileList = ({ profiles, onAddProfile, onSelectProfile, onDeleteProfile,
                     onKeyPress={(e) => e.key === 'Enter' && handleRenameProfile(profile.id)}
                     className="border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                     autoFocus
+                    onClick={(e) => e.stopPropagation()} // Prevent triggering the parent onClick
                   />
                 ) : (
                   <div>
@@ -60,7 +65,8 @@ const ProfileList = ({ profiles, onAddProfile, onSelectProfile, onDeleteProfile,
               </div>
               <div className="flex space-x-2">
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering the parent onClick
                     setEditingProfileId(profile.id);
                     setEditingProfileName(profile.name);
                   }}
@@ -69,13 +75,10 @@ const ProfileList = ({ profiles, onAddProfile, onSelectProfile, onDeleteProfile,
                   <PencilIcon className="h-5 w-5" />
                 </button>
                 <button
-                  onClick={() => onSelectProfile(profile.id)}
-                  className="text-gray-600 hover:text-indigo-600"
-                >
-                  <ChartBarIcon className="h-5 w-5" />
-                </button>
-                <button
-                  onClick={() => onDeleteProfile(profile.id)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering the parent onClick
+                    onDeleteProfile(profile.id);
+                  }}
                   className="text-gray-600 hover:text-red-600"
                 >
                   <TrashIcon className="h-5 w-5" />

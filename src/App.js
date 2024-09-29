@@ -7,6 +7,7 @@ import GameLogic from './components/GameLogic';
 import ProfileList from './components/ProfileList';
 import './App.css';
 import DisplayScreen from './components/DisplayScreen';
+import ProfileSimulation from './components/ProfileSimulation';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('display');
@@ -191,19 +192,12 @@ function App() {
         );
       case 'display':
       default:
-        return selectedProfile ? (
+        return (
           <DisplayScreen
-            profile={selectedProfile}
-            gameSettings={gameSettings}
-            onBack={() => setSelectedProfile(null)}
-          />
-        ) : (
-          <ProfileList
             profiles={profiles}
+            gameSettings={gameSettings}
             onSelectProfile={selectProfile}
-            onAddProfile={addProfile}
-            onDeleteProfile={deleteProfile}
-            onRenameProfile={renameProfile}
+            onBack={() => setSelectedProfile(null)}
           />
         );
     }
