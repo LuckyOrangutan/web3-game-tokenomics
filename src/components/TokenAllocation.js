@@ -6,6 +6,7 @@ import CustomTooltip from './Tooltips';
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
 const TokenAllocation = () => {
+  const [view, setView] = useState('display');
   const [allocations, setAllocations] = useState([
     { name: 'Play to Earn Incentives', percentage: 55, totalSupply: 55000000, unlockSchedule: '5m tokens unlocked, 50m tokens to be unlocked linearly over 5 years.' },
     { name: 'Ecosystem Fund', percentage: 5, totalSupply: 5000000, unlockSchedule: 'Tokens to be unlocked linearly over 3 years.' },
@@ -33,51 +34,78 @@ const TokenAllocation = () => {
     setAllocations(newAllocations);
   };
 
+  const renderSettings = () => (
+    <div className="token-allocation__settings">
+      {allocations.map((allocation, index) => (
+        <div key={index} className="input-group mb-4">
+          <label className="label-text flex items-center">
+            {allocation.name}
+            <CustomTooltip content={allocation.unlockSchedule}>
+              <span className="ml-2 inline-block w-5 h-5 bg-gray-300 rounded-full text-gray-600 font-bold text-xs flex items-center justify-center cursor-help">
+                ?
+              </span>
+            </CustomTooltip>
+          </label>
+          <input
+            type="number"
+            value={allocation.percentage}
+            onChange={(e) => handleAllocationChange(index, 'percentage', Number(e.target.value))}
+            className="input-field mt-1"
+          />
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderDisplay = () => (
+    <div className="token-allocation__chart">
+      <h3 className="token-allocation__title">Token Allocation</h3>
+      <div className="token-allocation__total-supply">
+        <div className="token-allocation__total-supply-title">Total Supply</div>
+        <div className="token-allocation__total-supply-value">{totalSupply.toLocaleString()}</div>
+      </div>
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={allocations}
+            cx="50%"
+            cy="50%"
+            innerRadius={80}
+            outerRadius={120}
+            fill="#8884d8"
+            paddingAngle={2}
+            dataKey="percentage"
+            labelLine={false}
+            label={null} // Change this line to remove the labels
+          >
+            {allocations.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+
   return (
-    <div className="token-allocation grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="token-allocation__chart">
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={allocations}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              fill="#8884d8"
-              paddingAngle={5}
-              dataKey="percentage"
-            >
-              {allocations.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
+    <div className="token-allocation">
+      <div className="token-allocation__controls">
+        <button
+          className={`button ${view === 'display' ? 'active' : ''}`}
+          onClick={() => setView('display')}
+        >
+          Display
+        </button>
+        <button
+          className={`button ${view === 'settings' ? 'active' : ''}`}
+          onClick={() => setView('settings')}
+        >
+          Settings
+        </button>
       </div>
-      <div className="token-allocation__settings">
-        <h3 className="text-xl font-semibold mb-4">Adjust Allocations</h3>
-        {allocations.map((allocation, index) => (
-          <div key={index} className="input-group mb-4">
-            <label className="label-text flex items-center">
-              {allocation.name}
-              <CustomTooltip content={allocation.unlockSchedule}>
-                <span className="ml-2 inline-block w-5 h-5 bg-gray-300 rounded-full text-gray-600 font-bold text-xs flex items-center justify-center cursor-help">
-                  ?
-                </span>
-              </CustomTooltip>
-            </label>
-            <input
-              type="number"
-              value={allocation.percentage}
-              onChange={(e) => handleAllocationChange(index, 'percentage', Number(e.target.value))}
-              className="input-field mt-1"
-            />
-          </div>
-        ))}
-      </div>
+      {view === 'display' ? renderDisplay() : renderSettings()}
     </div>
   );
 };

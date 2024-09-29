@@ -1,22 +1,26 @@
-.user-journey {
+.astraen-crystal-cost {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.user-journey__controls {
+.astraen-crystal-cost__controls {
     display: flex;
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
 }
 
-.user-journey__settings {
+.astraen-crystal-cost__settings,
+.astraen-crystal-cost__chart {
+    width: 100%;
+    max-width: 600px;
+}
+
+.astraen-crystal-cost__settings {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .input-group {
@@ -38,24 +42,4 @@
     border-color: #4a90e2;
 }
 
-.button {
-    padding: 0.5rem 1rem;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.button.active {
-    background-color: #007bff;
-    color: white;
-}
-
-.button:hover {
-    background-color: #e0e0e0;
-}
-
-.button.active:hover {
-    background-color: #0056b3;
-}
+/* Add more styles as needed */

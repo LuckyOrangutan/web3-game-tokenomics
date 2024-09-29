@@ -1,33 +1,43 @@
 .token-economics {
     display: flex;
-    flex-wrap: wrap;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .token-economics__settings {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .token-economics__chart {
-    flex: 2;
-    min-width: 400px;
-    height: 500px;
-  }
-  
-  .token-economics__input-group {
+    flex-direction: column;
+    align-items: center;
+}
+
+.token-economics__controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
     margin-bottom: 1rem;
-  }
-  
-  .token-economics__input {
+}
+
+.token-economics__settings,
+.token-economics__chart {
+    width: 100%;
+    max-width: 600px;
+}
+
+.token-economics__settings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.input-group {
+    width: 48%;
+    margin-bottom: 1rem;
+}
+
+.input-field {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #e2e8f0;
     border-radius: 0.25rem;
+    font-size: 0.875rem;
     transition: border-color 0.3s ease;
-  }
-  
-  .token-economics__input:focus {
+}
+
+.input-field:focus {
     outline: none;
     border-color: #4a90e2;
-  }
+}

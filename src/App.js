@@ -2,6 +2,7 @@ import React from 'react';
 import TokenEconomics from './components/TokenEconomics';
 import UserJourney from './components/UserJourney';
 import TokenAllocation from './components/TokenAllocation';
+import AstraenCrystalCost from './components/AstraenCrystalCost';
 import './App.css';
 
 function App() {
@@ -20,7 +21,11 @@ function App() {
             <h2 className="text-2xl font-bold mb-4 text-indigo-700">Token Economics</h2>
             <TokenEconomics />
           </div>
-          <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300 md:col-span-2">
+          <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+            <h2 className="text-2xl font-bold mb-4 text-indigo-700">Astraen Crystal Cost</h2>
+            <AstraenCrystalCost />
+          </div>
+          <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-bold mb-4 text-indigo-700">User Journey</h2>
             <UserJourney />
           </div>
