@@ -12,7 +12,7 @@ import ReactFlow, {
 import NodeSettings from './NodeSettings.js';
 import NodeList from './NodeList.js';
 
-const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings }) => {
+const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings, onBack }) => {
   const [selectedNode, setSelectedNode] = useState(null);
 
   const onNodesChange = useCallback(
@@ -86,6 +86,12 @@ const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings }) => {
     <div className="flex h-screen">
       <div className="w-1/4 bg-gray-100 p-4 overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
+          <button
+            onClick={onBack}
+            className="bg-gray-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl font-bold hover:bg-gray-600 transition-colors duration-300"
+          >
+            &larr;
+          </button>
           <h2 className="text-xl font-bold">Nodes</h2>
           <button
             onClick={addNewNode}

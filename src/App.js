@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TokenAllocation from './components/TokenAllocation';
 import TokenEconomics from './components/TokenEconomics';
 import UserJourney from './components/UserJourney';
 import AstraenCrystalCost from './components/AstraenCrystalCost';
 import GameLogic from './components/GameLogic';
+import ProfileList from './components/ProfileList';
 import './App.css';
+import DisplayScreen from './components/DisplayScreen';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('display');
+  const [profiles, setProfiles] = useState([]);
+  const [selectedProfile, setSelectedProfile] = useState(null);
 
   // TokenAllocation state
   const [tokenAllocations, setTokenAllocations] = useState([
@@ -57,6 +61,83 @@ function App() {
     // Add other settings as needed
   };
 
+  const addProfile = (name) => {
+    const newProfile = {
+      id: Date.now(),
+      name,
+      nodes: [],
+      edges: [],
+      tokenAllocationSettings: { ...tokenAllocations },
+      tokenEconomicsSettings: { ...tokenEconomicsSettings },
+      astraenCrystalSettings: { ...astraenCrystalSettings },
+      userJourneySettings: { ...userJourneySettings },
+    };
+    setProfiles([...profiles, newProfile]);
+  };
+
+  const deleteProfile = (id) => {
+    setProfiles(profiles.filter(profile => profile.id !== id));
+    if (selectedProfile && selectedProfile.id === id) {
+      setSelectedProfile(null);
+    }
+  };
+
+  const renameProfile = (id, newName) => {
+    setProfiles(profiles.map(profile => 
+      profile.id === id ? { ...profile, name: newName } : profile
+    ));
+  };
+
+  const selectProfile = (id) => {
+    const profile = profiles.find(p => p.id === id);
+    setSelectedProfile(profile);
+    setGameLogicNodes(profile.nodes);
+    setGameLogicEdges(profile.edges);
+  };
+
+  const updateProfileNodes = (nodes) => {
+    if (selectedProfile) {
+      const updatedProfile = { ...selectedProfile, nodes };
+      setProfiles(profiles.map(p => p.id === selectedProfile.id ? updatedProfile : p));
+      setSelectedProfile(updatedProfile);
+    }
+  };
+
+  const updateProfileEdges = (edges) => {
+    if (selectedProfile) {
+      const updatedProfile = { ...selectedProfile, edges };
+      setProfiles(profiles.map(p => p.id === selectedProfile.id ? updatedProfile : p));
+      setSelectedProfile(updatedProfile);
+    }
+  };
+
+  const updateProfileSettings = (settingType, newSettings) => {
+    if (selectedProfile) {
+      const updatedProfile = { ...selectedProfile, [settingType]: newSettings };
+      setProfiles(profiles.map(p => p.id === selectedProfile.id ? updatedProfile : p));
+      setSelectedProfile(updatedProfile);
+    }
+  };
+
+  const saveProfilesToLocalStorage = () => {
+    localStorage.setItem('profiles', JSON.stringify(profiles));
+  };
+
+  const loadProfilesFromLocalStorage = () => {
+    const savedProfiles = localStorage.getItem('profiles');
+    if (savedProfiles) {
+      setProfiles(JSON.parse(savedProfiles));
+    }
+  };
+
+  useEffect(() => {
+    loadProfilesFromLocalStorage();
+  }, []);
+
+  useEffect(() => {
+    saveProfilesToLocalStorage();
+  }, [profiles]);
+
   const renderPage = () => {
     switch (currentPage) {
       case 'settings':
@@ -81,21 +162,47 @@ function App() {
           </div>
         );
       case 'logic':
-        return (
-          <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-            <h2 className="text-2xl font-bold mb-4 text-indigo-700">Game Logic</h2>
-            <GameLogic
-              nodes={gameLogicNodes}
-              edges={gameLogicEdges}
-              setNodes={setGameLogicNodes}
-              setEdges={setGameLogicEdges}
-              gameSettings={gameSettings} // Pass gameSettings here
-            />
-          </div>
+        return selectedProfile ? (
+          <GameLogic
+            nodes={gameLogicNodes}
+            edges={gameLogicEdges}
+            setNodes={(nodes) => {
+              setGameLogicNodes(nodes);
+              updateProfileNodes(nodes);
+            }}
+            setEdges={(edges) => {
+              setGameLogicEdges(edges);
+              updateProfileEdges(edges);
+            }}
+            gameSettings={gameSettings}
+            onBack={() => setSelectedProfile(null)}
+          />
+        ) : (
+          <ProfileList
+            profiles={profiles}
+            onSelectProfile={selectProfile}
+            onAddProfile={addProfile}
+            onDeleteProfile={deleteProfile}
+            onRenameProfile={renameProfile}
+          />
         );
       case 'display':
       default:
-        return <h2 className="text-2xl font-bold mb-4 text-indigo-700">Display Page (To be implemented)</h2>;
+        return selectedProfile ? (
+          <DisplayScreen
+            profile={selectedProfile}
+            gameSettings={gameSettings}
+            onBack={() => setSelectedProfile(null)}
+          />
+        ) : (
+          <ProfileList
+            profiles={profiles}
+            onSelectProfile={selectProfile}
+            onAddProfile={addProfile}
+            onDeleteProfile={deleteProfile}
+            onRenameProfile={renameProfile}
+          />
+        );
     }
   };
 
