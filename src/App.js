@@ -49,6 +49,14 @@ function App() {
   const [gameLogicNodes, setGameLogicNodes] = useState([]);
   const [gameLogicEdges, setGameLogicEdges] = useState([]);
 
+  // Combine all game settings if necessary
+  const gameSettings = {
+    ...tokenEconomicsSettings,
+    ...astraenCrystalSettings,
+    ...userJourneySettings,
+    // Add other settings as needed
+  };
+
   const renderPage = () => {
     switch (currentPage) {
       case 'settings':
@@ -76,7 +84,13 @@ function App() {
         return (
           <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-bold mb-4 text-indigo-700">Game Logic</h2>
-            <GameLogic nodes={gameLogicNodes} edges={gameLogicEdges} setNodes={setGameLogicNodes} setEdges={setGameLogicEdges} />
+            <GameLogic
+              nodes={gameLogicNodes}
+              edges={gameLogicEdges}
+              setNodes={setGameLogicNodes}
+              setEdges={setGameLogicEdges}
+              gameSettings={gameSettings} // Pass gameSettings here
+            />
           </div>
         );
       case 'display':

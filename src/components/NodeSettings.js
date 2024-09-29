@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import SettingDropdown from './SettingDropdown';
 
-const NodeSettings = ({ node, onUpdate }) => {
+const NodeSettings = ({ node, onUpdate, gameSettings }) => {
   const [settings, setSettings] = useState(node.data.settings);
   const [label, setLabel] = useState(node.data.label);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     setSettings(node.data.settings);
@@ -27,9 +29,25 @@ const NodeSettings = ({ node, onUpdate }) => {
     onUpdate(node.id, { settings: updatedSettings, label });
   };
 
+  const handleDropdownSelect = (key) => {
+    console.log('Selected key:', key);
+    console.log('Game Settings:', gameSettings);
+    if (key && gameSettings[key] !== undefined) {
+      const updatedSettings = { ...settings, [key]: gameSettings[key] };
+      setSettings(updatedSettings);
+      onUpdate(node.id, { settings: updatedSettings, label });
+    } else {
+      console.warn(`Game setting for key "${key}" is undefined.`);
+    }
+    setShowDropdown(false);
+  };
+
+  const handleDropdownClose = () => {
+    setShowDropdown(false);
+  };
+
   const handleAddLine = () => {
-    const newKey = `newSetting${Object.keys(settings).length}`;
-    handleSettingChange(newKey, '');
+    setShowDropdown(true);
   };
 
   return (
@@ -62,12 +80,20 @@ const NodeSettings = ({ node, onUpdate }) => {
           </div>
         </div>
       ))}
-      <button
-        onClick={handleAddLine}
-        className="bg-green-500 text-white px-2 py-1 rounded mt-2"
-      >
-        Add Setting
-      </button>
+      {showDropdown ? (
+        <SettingDropdown
+          settings={gameSettings}
+          onSelect={handleDropdownSelect}
+          onClose={handleDropdownClose}
+        />
+      ) : (
+        <button
+          onClick={handleAddLine}
+          className="bg-blue-500 text-white px-2 py-1 rounded mt-2"
+        >
+          Add Setting
+        </button>
+      )}
     </div>
   );
 };

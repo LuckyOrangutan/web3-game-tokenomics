@@ -12,7 +12,7 @@ import ReactFlow, {
 import NodeSettings from './NodeSettings.js';
 import NodeList from './NodeList.js';
 
-const GameLogic = ({ nodes, edges, setNodes, setEdges }) => {
+const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings }) => {
   const [selectedNode, setSelectedNode] = useState(null);
 
   const onNodesChange = useCallback(
@@ -125,7 +125,11 @@ const GameLogic = ({ nodes, edges, setNodes, setEdges }) => {
                 Close
               </button>
             </div>
-            <NodeSettings node={selectedNode} onUpdate={updateNodeSettings} />
+            <NodeSettings
+              node={selectedNode}
+              onUpdate={updateNodeSettings}
+              gameSettings={gameSettings}
+            />
           </div>
         )}
       </div>
