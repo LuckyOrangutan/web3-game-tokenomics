@@ -58,14 +58,14 @@ const TokenAllocation = ({ allocations, setAllocations }) => {
             paddingAngle={2}
             dataKey="percentage"
             labelLine={false}
-            label={null}
+            label={renderCustomizedLabel}
           >
             {allocations.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
           <Tooltip />
-          <Legend />
+          <Legend layout="vertical" align="right" verticalAlign="middle" />
         </PieChart>
       </ResponsiveContainer>
       <div className="token-allocation__total-supply">
@@ -74,6 +74,19 @@ const TokenAllocation = ({ allocations, setAllocations }) => {
       </div>
     </div>
   );
+
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
 
   return (
     <div className="token-allocation">

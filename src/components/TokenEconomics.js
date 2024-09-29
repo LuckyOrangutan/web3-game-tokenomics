@@ -89,9 +89,9 @@ const TokenEconomics = ({ settings, setSettings }) => {
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
+          <XAxis dataKey="month" label={{ value: 'Month', position: 'insideBottom', offset: -5 }} />
+          <YAxis yAxisId="left" label={{ value: 'Token Amount', angle: -90, position: 'insideLeft' }} />
+          <YAxis yAxisId="right" orientation="right" label={{ value: 'Players', angle: 90, position: 'insideRight' }} />
           <Tooltip />
           <Legend />
           <Line yAxisId="left" type="monotone" dataKey="supply" stroke="#3B82F6" name="Token Supply" />

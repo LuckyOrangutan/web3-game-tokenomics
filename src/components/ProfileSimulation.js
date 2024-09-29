@@ -65,44 +65,92 @@ const ProfileSimulation = ({ profile, gameSettings, onBack }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white rounded-xl shadow-md p-6">
           <h3 className="text-xl font-bold mb-4">Player Growth</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={simulationData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="players" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>
+          <div className="h-64 md:h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart 
+                data={simulationData} 
+                margin={{ top: 20, right: 30, left: 50, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="month" 
+                  label={{ value: 'Month', position: 'insideBottom', offset: -10 }} 
+                />
+                <YAxis 
+                  label={{ 
+                    value: 'Number of Players', 
+                    angle: -90, 
+                    position: 'insideLeft', 
+                    offset: -5, 
+                    dy: 50 
+                  }} 
+                />
+                <Tooltip />
+                <Legend verticalAlign="bottom" align="left" wrapperStyle={{ paddingTop: '20px' }} />
+                <Line type="monotone" dataKey="players" stroke="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-6">
           <h3 className="text-xl font-bold mb-4">Revenue</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={simulationData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
-            </LineChart>
-          </ResponsiveContainer>
+          <div className="h-64 md:h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart 
+                data={simulationData} 
+                margin={{ top: 20, right: 30, left: 50, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="month" 
+                  label={{ value: 'Month', position: 'insideBottom', offset: -10 }} 
+                />
+                <YAxis 
+                  label={{ 
+                    value: 'Revenue ($)', 
+                    angle: -90, 
+                    position: 'insideLeft', 
+                    offset: -5, 
+                    dy: 10 
+                  }} 
+                />
+                <Tooltip />
+                <Legend verticalAlign="bottom" align="left" wrapperStyle={{ paddingTop: '20px' }} />
+                <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-6">
           <h3 className="text-xl font-bold mb-4">Token Price</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={simulationData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="tokenPrice" stroke="#ffc658" />
-            </LineChart>
-          </ResponsiveContainer>
+          <div className="h-64 md:h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart 
+                data={simulationData} 
+                margin={{ top: 20, right: 30, left: 50, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="month" 
+                  label={{ value: 'Month', position: 'insideBottom', offset: -10 }} 
+                />
+                <YAxis 
+                  label={{ 
+                    value: 'Token Price ($)', 
+                    angle: -90, 
+                    position: 'insideLeft', 
+                    offset: -5, 
+                    dy: 10 
+                  }} 
+                />
+                <Tooltip />
+                <Legend verticalAlign="bottom" align="left" wrapperStyle={{ paddingTop: '20px' }} />
+                <Line type="monotone" dataKey="tokenPrice" stroke="#ffc658" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-6">
@@ -131,18 +179,20 @@ const ProfileSimulation = ({ profile, gameSettings, onBack }) => {
 
         <div className="bg-white rounded-xl shadow-md p-6 col-span-2">
           <h3 className="text-xl font-bold mb-4">Historical Data</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={historicalData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="game1" fill="#8884d8" />
-              <Bar dataKey="game2" fill="#82ca9d" />
-              <Bar dataKey="game3" fill="#ffc658" />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="h-64 md:h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={historicalData} margin={{ top: 5, right: 30, left: 20, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" label={{ value: 'Month', position: 'insideBottom', offset: -10 }} />
+                <YAxis label={{ value: 'Value', angle: -90, position: 'insideLeft', offset: 0 }} />
+                <Tooltip />
+                <Legend verticalAlign="bottom" align="left" wrapperStyle={{ paddingTop: '20px' }} />
+                <Bar dataKey="game1" fill="#8884d8" />
+                <Bar dataKey="game2" fill="#82ca9d" />
+                <Bar dataKey="game3" fill="#ffc658" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>

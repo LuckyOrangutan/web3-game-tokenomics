@@ -21,7 +21,6 @@ const DisplayScreen = ({ profiles, gameSettings, onSelectProfile, onBack }) => {
 
   return (
     <div className="display-screen">
-      <h2 className="text-2xl font-bold mb-4">Profiles</h2>
       <ProfileList
         profiles={profiles}
         onSelectProfile={handleProfileClick}
