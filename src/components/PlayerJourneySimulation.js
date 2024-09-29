@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PlayerProfile from './PlayerProfile';
 
 const PlayerJourneySimulation = ({ nodes, edges }) => {
@@ -35,6 +35,15 @@ const PlayerJourneySimulation = ({ nodes, edges }) => {
       marks: Math.floor(Math.random() * 100),
     };
   };
+
+  const simulateUserJourney = useCallback(() => {
+    // Your simulation logic here
+    // ...
+  }, [nodes, edges]);
+
+  useEffect(() => {
+    setSimulationResults(simulateUserJourney());
+  }, [simulateUserJourney]);
 
   return (
     <div className="player-journey-simulation">

@@ -6,6 +6,7 @@ import ReactFlow, {
   Background,
   useNodesState,
   useEdgesState,
+  updateEdge,
 } from 'react-flow-renderer';
 import NodeSettings from './NodeSettings.js';
 import PlayerJourneySimulation from './PlayerJourneySimulation';
@@ -36,6 +37,7 @@ const initialNodes = [
   },
 ];
 
+
 const initialEdges = [
   { id: 'e1-2', source: '1', target: '2' },
   { id: 'e1-3', source: '1', target: '3' },
@@ -43,16 +45,41 @@ const initialEdges = [
   { id: 'e3-4', source: '3', target: '4' },
 ];
 
+
 const GameLogic = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState(null);
-  const [view, setView] = useState('chart'); // 'chart' or 'list'
+  const [view, setView] = useState('chart');
+  const [hoveredEdge, setHoveredEdge] = useState(null);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
+
+  const onEdgeRemove = useCallback(
+    (edge) => {
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+    },
+    [setEdges]
+  );
+
+  const onEdgeClick = useCallback(
+    (event, edge) => {
+      event.preventDefault();
+      onEdgeRemove(edge);
+    },
+    [onEdgeRemove]
+  );
+
+  const onEdgeMouseEnter = useCallback((event, edge) => {
+    setHoveredEdge(edge.id);
+  }, []);
+
+  const onEdgeMouseLeave = useCallback(() => {
+    setHoveredEdge(null);
+  }, []);
 
   const onNodeClick = useCallback((event, node) => {
     setSelectedNode(node);
@@ -69,6 +96,12 @@ const GameLogic = () => {
     );
   }, [setNodes]);
 
+  const deleteNode = useCallback((nodeId) => {
+    setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+    setEdges((eds) => eds.filter((edge) => edge.source !== nodeId && edge.target !== nodeId));
+    setSelectedNode(null);
+  }, [setNodes, setEdges]);
+
   const addNewNode = useCallback(() => {
     const newNode = {
       id: (nodes.length + 1).toString(),
@@ -77,6 +110,24 @@ const GameLogic = () => {
     };
     setNodes((nds) => [...nds, newNode]);
   }, [nodes, setNodes]);
+
+  const onEdgeUpdate = useCallback(
+    (oldEdge, newConnection) => {
+      setEdges((els) => updateEdge(oldEdge, newConnection, els));
+    },
+    [setEdges]
+  );
+
+  const edgeStyles = {
+    default: {
+      strokeWidth: 3,  // Increased from 2
+      stroke: '#b1b1b7',
+    },
+    hover: {
+      strokeWidth: 5,  // Increased from 4
+      stroke: '#FF0000',
+    },
+  };
 
   const renderLeftPanel = () => (
     <div className="left-panel bg-gray-100 p-4 w-64">
@@ -105,8 +156,18 @@ const GameLogic = () => {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onEdgeClick={onEdgeClick}
+            onEdgeMouseEnter={onEdgeMouseEnter}
+            onEdgeMouseLeave={onEdgeMouseLeave}
             onNodeClick={onNodeClick}
+            onEdgeUpdate={onEdgeUpdate}
             fitView
+            edgesFocusable={false}
+            edgesUpdatable={true}  // Changed from false
+            elementsSelectable={true}
+            selectNodesOnDrag={false}
+            edgeTypes={edgeTypes}
+            defaultEdgeOptions={defaultEdgeOptions}
           >
             <MiniMap />
             <Controls />
@@ -114,14 +175,24 @@ const GameLogic = () => {
           </ReactFlow>
         </div>
       ) : (
-        <NodeList nodes={nodes} onNodeSelect={setSelectedNode} onUpdateNode={updateNodeSettings} />
+        <NodeList nodes={nodes} onNodeSelect={setSelectedNode} onUpdateNode={updateNodeSettings} onDeleteNode={deleteNode} />
       )}
       {selectedNode && view === 'chart' && (
-        <NodeSettings node={selectedNode} onUpdate={updateNodeSettings} />
+        <NodeSettings node={selectedNode} onUpdate={updateNodeSettings} onDelete={deleteNode} />
       )}
       <PlayerJourneySimulation nodes={nodes} edges={edges} />
     </div>
   );
+
+  const edgeTypes = {
+    // Define your custom edge types here if needed
+  };
+
+  const defaultEdgeOptions = {
+    // Define your default edge options here
+    type: 'smoothstep',
+    animated: true,
+  };
 
   return (
     <div className="game-logic flex">
