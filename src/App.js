@@ -23,6 +23,7 @@ function App() {
     { name: 'Liquidity & Market Making', percentage: 15, totalSupply: 15000000, unlockSchedule: 'Tokens to be unlocked linearly over 18 months.' },
   ]);
 
+
   // TokenEconomics state
   const [tokenEconomicsSettings, setTokenEconomicsSettings] = useState({
     initialSupply: 1000000,
@@ -61,6 +62,7 @@ function App() {
     // Add other settings as needed
   };
 
+
   const addProfile = (name) => {
     const newProfile = {
       id: Date.now(),
@@ -87,6 +89,7 @@ function App() {
       profile.id === id ? { ...profile, name: newName } : profile
     ));
   };
+
 
   const selectProfile = (id) => {
     const profile = profiles.find(p => p.id === id);
@@ -206,6 +209,67 @@ function App() {
     }
   };
 
+  const theoreticalProfile = {
+    id: 'theoretical',
+    name: 'Theoretical Profile',
+    nodes: [
+      {
+        id: '1',
+        type: 'tokenGeneration',
+        data: { 
+          label: 'Token Generation',
+          settings: { generationRate: 1000 }
+        },
+        position: { x: 250, y: 5 },
+      },
+      {
+        id: '2',
+        type: 'playerAcquisition',
+        data: { 
+          label: 'Player Acquisition',
+          settings: { acquisitionRate: 100 }
+        },
+        position: { x: 100, y: 100 },
+      },
+      {
+        id: '3',
+        type: 'revenueGeneration',
+        data: { 
+          label: 'Revenue Generation',
+          settings: { revenueRate: 500 }
+        },
+        position: { x: 400, y: 100 },
+      },
+      {
+        id: '4',
+        type: 'playerRetention',
+        data: { 
+          label: 'Player Retention',
+          settings: { retentionRate: 75 }
+        },
+        position: { x: 250, y: 200 },
+      },
+    ],
+    edges: [
+      { id: 'e1-2', source: '1', target: '2' },
+      { id: 'e1-3', source: '1', target: '3' },
+      { id: 'e2-4', source: '2', target: '4' },
+      { id: 'e3-4', source: '3', target: '4' },
+    ],
+    tokenAllocationSettings: { ...tokenAllocations },
+    tokenEconomicsSettings: { ...tokenEconomicsSettings },
+    astraenCrystalSettings: { ...astraenCrystalSettings },
+    userJourneySettings: { ...userJourneySettings },
+  };
+
+  // Add this to the useEffect hook that loads profiles
+  useEffect(() => {
+    loadProfilesFromLocalStorage();
+    if (!profiles.some(profile => profile.id === 'theoretical')) {
+      setProfiles(prevProfiles => [...prevProfiles, theoreticalProfile]);
+    }
+  }, []);
+
   return (
     <div className="App bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
       <header className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 shadow-lg relative overflow-hidden">
@@ -252,5 +316,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

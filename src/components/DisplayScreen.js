@@ -3,6 +3,7 @@ import TokenAllocation from './TokenAllocation';
 import TokenEconomics from './TokenEconomics';
 import AstraenCrystalCost from './AstraenCrystalCost';
 import UserJourney from './UserJourney';
+import LogicMatrix from './LogicMatrix';
 
 const DisplayScreen = ({ profile, gameSettings, onBack }) => {
   return (
@@ -30,6 +31,10 @@ const DisplayScreen = ({ profile, gameSettings, onBack }) => {
         <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
           <h3 className="text-xl font-bold mb-4 text-indigo-700">User Journey</h3>
           <UserJourney settings={gameSettings.userJourneySettings} setSettings={() => {}} />
+        </div>
+        <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300 col-span-2">
+          <h3 className="text-xl font-bold mb-4 text-indigo-700">Simulation Results</h3>
+          <LogicMatrix nodes={profile.nodes} edges={profile.edges} gameSettings={gameSettings} />
         </div>
       </div>
     </div>

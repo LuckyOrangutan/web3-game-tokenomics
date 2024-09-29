@@ -11,6 +11,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import NodeSettings from './NodeSettings.js';
 import NodeList from './NodeList.js';
+import LogicMatrix from './LogicMatrix';
 
 const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings, onBack }) => {
   const [selectedNode, setSelectedNode] = useState(null);
@@ -19,6 +20,7 @@ const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings, onBack }) =
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
   );
+
 
   const onEdgesChange = useCallback(
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
@@ -33,6 +35,7 @@ const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings, onBack }) =
   const onNodeClick = useCallback((event, node) => {
     setSelectedNode(node);
   }, []);
+
 
   const updateNodeSettings = useCallback((nodeId, newData) => {
     setNodes((nds) =>
@@ -120,6 +123,7 @@ const GameLogic = ({ nodes, edges, setNodes, setEdges, gameSettings, onBack }) =
           <Controls />
           <Background />
         </ReactFlow>
+        <LogicMatrix nodes={nodes} edges={edges} gameSettings={gameSettings} />
         {selectedNode && (
           <div className="absolute top-0 right-0 w-1/3 h-full bg-white shadow-lg p-4 overflow-y-auto z-50">
             <div className="flex justify-between items-center mb-4">
