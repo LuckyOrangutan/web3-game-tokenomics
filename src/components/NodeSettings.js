@@ -34,41 +34,32 @@ const NodeSettings = ({ node, onUpdate }) => {
 
   return (
     <div className="node-settings">
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Label</label>
+      <div className="input-group mb-4">
+        <label className="label-text">Label</label>
         <input
           type="text"
           value={label}
           onChange={(e) => handleLabelChange(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="input-field"
         />
       </div>
       {Object.entries(settings).map(([key, value]) => (
-        <div key={key} className="mb-2 flex items-center">
-          <input
-            type="text"
-            value={key}
-            onChange={(e) => {
-              const updatedSettings = { ...settings };
-              delete updatedSettings[key];
-              updatedSettings[e.target.value] = value;
-              setSettings(updatedSettings);
-              onUpdate(node.id, { settings: updatedSettings, label });
-            }}
-            className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mr-2"
-          />
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => handleSettingChange(key, e.target.value)}
-            className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mr-2"
-          />
-          <button
-            onClick={() => handleRemoveLine(key)}
-            className="bg-red-500 text-white px-2 py-1 rounded"
-          >
-            Remove
-          </button>
+        <div key={key} className="input-group mb-2">
+          <label className="label-text">{key}</label>
+          <div className="flex items-center">
+            <input
+              type="text"
+              value={value}
+              onChange={(e) => handleSettingChange(key, e.target.value)}
+              className="input-field mr-2"
+            />
+            <button
+              onClick={() => handleRemoveLine(key)}
+              className="bg-red-500 text-white px-2 py-1 rounded"
+            >
+              Remove
+            </button>
+          </div>
         </div>
       ))}
       <button

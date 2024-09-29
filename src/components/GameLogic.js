@@ -6,26 +6,24 @@ import ReactFlow, {
   Background,
   useNodesState,
   useEdgesState,
+  applyNodeChanges,
+  applyEdgeChanges,
 } from 'react-flow-renderer';
 import NodeSettings from './NodeSettings.js';
 import NodeList from './NodeList.js';
 
-const initialNodes = [
-  {
-    id: '1',
-    type: 'default',
-    data: { label: 'New Node', settings: {} },
-    position: { x: 250, y: 150 },
-    style: { width: 150, height: 50 },
-  },
-];
-
-const initialEdges = [];
-
-const GameLogic = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+const GameLogic = ({ nodes, edges, setNodes, setEdges }) => {
   const [selectedNode, setSelectedNode] = useState(null);
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -36,11 +34,17 @@ const GameLogic = () => {
     setSelectedNode(node);
   }, []);
 
-  const updateNodeSettings = useCallback((nodeId, settings) => {
+  const updateNodeSettings = useCallback((nodeId, newData) => {
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === nodeId) {
-          node.data = { ...node.data, settings };
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              ...newData,
+            },
+          };
         }
         return node;
       })
@@ -62,13 +66,15 @@ const GameLogic = () => {
     setNodes((nds) => [...nds, newNode]);
   }, [nodes, setNodes]);
 
-  const onNodeRename = useCallback((nodeId) => {
-    const newLabel = prompt('Enter new node name:');
+  const onNodeRename = useCallback((nodeId, newLabel) => {
     if (newLabel) {
       setNodes((nds) =>
         nds.map((node) => {
           if (node.id === nodeId) {
-            node.data = { ...node.data, label: newLabel };
+            return {
+              ...node,
+              data: { ...node.data, label: newLabel },
+            };
           }
           return node;
         })
@@ -119,10 +125,7 @@ const GameLogic = () => {
                 Close
               </button>
             </div>
-            <NodeSettings
-              node={selectedNode}
-              onUpdate={updateNodeSettings}
-            />
+            <NodeSettings node={selectedNode} onUpdate={updateNodeSettings} />
           </div>
         )}
       </div>

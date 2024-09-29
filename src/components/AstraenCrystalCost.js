@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../styles/AstraenCrystalCost.css';
 
-const AstraenCrystalCost = () => {
+const AstraenCrystalCost = ({ settings, setSettings }) => {
   const [view, setView] = useState('display');
-  const [questSlotCost, setQuestSlotCost] = useState(20);
-  const [profileEnhancementCost, setProfileEnhancementCost] = useState(30);
-  const [cosmeticCost, setCosmeticCost] = useState(10);
-  const [boostCost, setBoostCost] = useState(15);
+  const { questSlotCost, profileEnhancementCost, cosmeticCost, boostCost } = settings;
 
   const simulateAstraenCrystalCost = () => {
     // Implement the simulation logic
@@ -22,7 +19,7 @@ const AstraenCrystalCost = () => {
         <input
           type="number"
           value={questSlotCost}
-          onChange={(e) => setQuestSlotCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, questSlotCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -31,7 +28,7 @@ const AstraenCrystalCost = () => {
         <input
           type="number"
           value={profileEnhancementCost}
-          onChange={(e) => setProfileEnhancementCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, profileEnhancementCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -40,7 +37,7 @@ const AstraenCrystalCost = () => {
         <input
           type="number"
           value={cosmeticCost}
-          onChange={(e) => setCosmeticCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, cosmeticCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -49,7 +46,7 @@ const AstraenCrystalCost = () => {
         <input
           type="number"
           value={boostCost}
-          onChange={(e) => setBoostCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, boostCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>

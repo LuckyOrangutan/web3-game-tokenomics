@@ -2,13 +2,9 @@ import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../styles/TokenEconomics.css';
 
-const TokenEconomics = () => {
+const TokenEconomics = ({ settings, setSettings }) => {
   const [view, setView] = useState('display');
-  const [initialSupply, setInitialSupply] = useState(1000000);
-  const [initialPlayerBase, setInitialPlayerBase] = useState(1000);
-  const [monthlyBurnRate, setMonthlyBurnRate] = useState(0.05);
-  const [monthlyPlayerGrowth, setMonthlyPlayerGrowth] = useState(0.1);
-  const [tokensPerPlayer, setTokensPerPlayer] = useState(100);
+  const { initialSupply, initialPlayerBase, monthlyBurnRate, monthlyPlayerGrowth, tokensPerPlayer } = settings;
 
   const simulateTokenomics = () => {
     let data = [];
@@ -43,7 +39,7 @@ const TokenEconomics = () => {
         <input
           type="number"
           value={initialSupply}
-          onChange={(e) => setInitialSupply(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, initialSupply: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -52,7 +48,7 @@ const TokenEconomics = () => {
         <input
           type="number"
           value={initialPlayerBase}
-          onChange={(e) => setInitialPlayerBase(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, initialPlayerBase: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -61,7 +57,7 @@ const TokenEconomics = () => {
         <input
           type="number"
           value={monthlyBurnRate}
-          onChange={(e) => setMonthlyBurnRate(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, monthlyBurnRate: Number(e.target.value) })}
           className="input-field"
           step="0.01"
         />
@@ -71,7 +67,7 @@ const TokenEconomics = () => {
         <input
           type="number"
           value={monthlyPlayerGrowth}
-          onChange={(e) => setMonthlyPlayerGrowth(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, monthlyPlayerGrowth: Number(e.target.value) })}
           className="input-field"
           step="0.01"
         />
@@ -81,7 +77,7 @@ const TokenEconomics = () => {
         <input
           type="number"
           value={tokensPerPlayer}
-          onChange={(e) => setTokensPerPlayer(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, tokensPerPlayer: Number(e.target.value) })}
           className="input-field"
         />
       </div>

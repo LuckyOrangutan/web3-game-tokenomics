@@ -1,38 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import '../styles/TokenAllocation.css';
 import CustomTooltip from './Tooltips';
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'];
 
-const TokenAllocation = () => {
+const TokenAllocation = ({ allocations, setAllocations }) => {
   const [view, setView] = useState('display');
-  const [allocations, setAllocations] = useState([
-    { name: 'Play to Earn Incentives', percentage: 55, totalSupply: 55000000, unlockSchedule: '5m tokens unlocked, 50m tokens to be unlocked linearly over 5 years.' },
-    { name: 'Ecosystem Fund', percentage: 5, totalSupply: 5000000, unlockSchedule: 'Tokens to be unlocked linearly over 3 years.' },
-    { name: 'Team', percentage: 15, totalSupply: 15000000, unlockSchedule: 'Tokens to begin unlocking linearly after 12 months, fully unlocked after 5 years.' },
-    { name: 'Private Sale', percentage: 5, totalSupply: 5000000, unlockSchedule: 'Tokens to be unlocked linearly over 3 years.' },
-    { name: 'Initial DEX Offering', percentage: 5, totalSupply: 5000000, unlockSchedule: 'Fully unlocked for initial sale and liquidity.' },
-    { name: 'Liquidity & Market Making', percentage: 15, totalSupply: 15000000, unlockSchedule: 'Tokens to be unlocked linearly over 18 months.' },
-  ]);
-
-  const [totalSupply, setTotalSupply] = useState(100000000);
-
-  useEffect(() => {
-    const newTotalSupply = allocations.reduce((sum, allocation) => sum + allocation.totalSupply, 0);
-    setTotalSupply(newTotalSupply);
-  }, [allocations]);
 
   const handleAllocationChange = (index, field, value) => {
     const newAllocations = [...allocations];
     newAllocations[index][field] = value;
     if (field === 'percentage') {
-      newAllocations[index].totalSupply = Math.round(value / 100 * totalSupply);
+      newAllocations[index].totalSupply = Math.round(value / 100 * getTotalSupply());
     } else if (field === 'totalSupply') {
-      newAllocations[index].percentage = Math.round((value / totalSupply) * 100);
+      newAllocations[index].percentage = Math.round((value / getTotalSupply()) * 100);
     }
     setAllocations(newAllocations);
   };
+
+  const getTotalSupply = () => allocations.reduce((sum, allocation) => sum + allocation.totalSupply, 0);
 
   const renderSettings = () => (
     <div className="token-allocation__settings">
@@ -83,7 +70,7 @@ const TokenAllocation = () => {
       </ResponsiveContainer>
       <div className="token-allocation__total-supply">
         <div className="token-allocation__total-supply-title">Total Supply</div>
-        <div className="token-allocation__total-supply-value">{totalSupply.toLocaleString()}</div>
+        <div className="token-allocation__total-supply-value">{getTotalSupply().toLocaleString()}</div>
       </div>
     </div>
   );

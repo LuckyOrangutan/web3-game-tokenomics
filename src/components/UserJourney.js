@@ -2,14 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../styles/UserJourney.css';
 
-const UserJourney = () => {
+const UserJourney = ({ settings, setSettings }) => {
   const [data, setData] = useState([]);
   const [view, setView] = useState('display');
-  const [initialTokens, setInitialTokens] = useState(100);
-  const [questSlotCost, setQuestSlotCost] = useState(20);
-  const [profileEnhancementCost, setProfileEnhancementCost] = useState(30);
-  const [cosmeticCost, setCosmeticCost] = useState(10);
-  const [boostCost, setBoostCost] = useState(15);
+  const { initialTokens, questSlotCost, profileEnhancementCost, cosmeticCost, boostCost } = settings;
 
   useEffect(() => {
     setData(simulateUserJourney());
@@ -67,7 +63,7 @@ const UserJourney = () => {
         <input
           type="number"
           value={initialTokens}
-          onChange={(e) => setInitialTokens(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, initialTokens: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -76,7 +72,7 @@ const UserJourney = () => {
         <input
           type="number"
           value={questSlotCost}
-          onChange={(e) => setQuestSlotCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, questSlotCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -85,7 +81,7 @@ const UserJourney = () => {
         <input
           type="number"
           value={profileEnhancementCost}
-          onChange={(e) => setProfileEnhancementCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, profileEnhancementCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -94,7 +90,7 @@ const UserJourney = () => {
         <input
           type="number"
           value={cosmeticCost}
-          onChange={(e) => setCosmeticCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, cosmeticCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>
@@ -103,7 +99,7 @@ const UserJourney = () => {
         <input
           type="number"
           value={boostCost}
-          onChange={(e) => setBoostCost(Number(e.target.value))}
+          onChange={(e) => setSettings({ ...settings, boostCost: Number(e.target.value) })}
           className="input-field"
         />
       </div>
