@@ -3,6 +3,7 @@ import TokenEconomics from './components/TokenEconomics';
 import UserJourney from './components/UserJourney';
 import TokenAllocation from './components/TokenAllocation';
 import AstraenCrystalCost from './components/AstraenCrystalCost';
+import GameLogic from './components/GameLogic';
 import './App.css';
 
 function App() {
@@ -32,7 +33,12 @@ function App() {
           </div>
         );
       case 'logic':
-        return <h2 className="text-2xl font-bold mb-4 text-indigo-700">Logic Page (To be implemented)</h2>;
+        return (
+          <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+            <h2 className="text-2xl font-bold mb-4 text-indigo-700">Game Logic</h2>
+            <GameLogic />
+          </div>
+        );
       case 'display':
       default:
         return <h2 className="text-2xl font-bold mb-4 text-indigo-700">Display Page (To be implemented)</h2>;
