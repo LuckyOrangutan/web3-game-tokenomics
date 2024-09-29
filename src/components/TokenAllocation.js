@@ -59,11 +59,6 @@ const TokenAllocation = () => {
 
   const renderDisplay = () => (
     <div className="token-allocation__chart">
-      <h3 className="token-allocation__title">Token Allocation</h3>
-      <div className="token-allocation__total-supply">
-        <div className="token-allocation__total-supply-title">Total Supply</div>
-        <div className="token-allocation__total-supply-value">{totalSupply.toLocaleString()}</div>
-      </div>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
@@ -76,7 +71,7 @@ const TokenAllocation = () => {
             paddingAngle={2}
             dataKey="percentage"
             labelLine={false}
-            label={null} // Change this line to remove the labels
+            label={null}
           >
             {allocations.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -86,6 +81,10 @@ const TokenAllocation = () => {
           <Legend />
         </PieChart>
       </ResponsiveContainer>
+      <div className="token-allocation__total-supply">
+        <div className="token-allocation__total-supply-title">Total Supply</div>
+        <div className="token-allocation__total-supply-value">{totalSupply.toLocaleString()}</div>
+      </div>
     </div>
   );
 

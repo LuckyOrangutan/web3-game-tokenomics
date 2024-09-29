@@ -117,22 +117,25 @@
 
 .token-allocation__total-supply {
     position: absolute;
-    top: 50%;
+    top: 40%;  /* Changed from 50% to 40% */
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);  /* Added for better visibility */
+    padding: 10px;  /* Added for better spacing */
+    border-radius: 8px;  /* Added for rounded corners */
 }
 
 .token-allocation__total-supply-title {
-    font-size: 1.2rem;
+    font-size: 1rem;  /* Reduced from 1.2rem */
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
 }
 
 .token-allocation__total-supply-value {
-    font-size: 1.5rem;
+    font-size: 1.3rem;  /* Reduced from 1.5rem */
     font-weight: bold;
     color: #4a90e2;
     background: linear-gradient(45deg, #4a90e2, #63b3ed);
